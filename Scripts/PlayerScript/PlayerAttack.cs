@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    
+    public string curweapon;
+
+    //이건 weapon animator를 따로 만들어서 관리하는편이 좋겠다.
     public void SetWeapon(string weaponName)
     {
         //case문에는 무기 변경 애니메이션을 넣을 생각이다.
@@ -36,7 +38,7 @@ public class PlayerAttack : MonoBehaviour
                 break;
         }
     }
-    public void Attack(string weaponName)
+    public void Attack( )
     {
         //손에 들고 있는 무기에 따라 다른 공격이 나가야함
         

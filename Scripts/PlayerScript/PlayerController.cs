@@ -2,22 +2,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Transform weaponHolder;
+
+
     private PlayerInputHandler input;
     private PlayerMovement movement;
-    private  PlayerAnimator animator;
+    private PlayerAnimator animator;
     private PlayerAttack attack;
-    private PlayerWeaponChanger changer;
-    private PlayerDash Dash;
-
-    private string weaponName = "LongSword";
+    private PlayerDash dash;
+   
     void Awake()
     {
         input = GetComponent<PlayerInputHandler>();
         movement = GetComponent<PlayerMovement>();
         animator = GetComponent<PlayerAnimator>();
         attack = GetComponent<PlayerAttack>();
-        changer = GetComponent<PlayerWeaponChanger>();
-        Dash = GetComponent<PlayerDash>();
+        dash = GetComponent<PlayerDash>();
     }
 
     void Update()
@@ -27,13 +27,11 @@ public class PlayerController : MonoBehaviour
         animator.UpdateAnimation(moveInput);
         if (input.IsLeftClickPressed())
         {
-            attack.Attack(weaponName);
+            attack.Attack();
         }
         if (input.IsRightClickPressed()) 
         {
-            Dash.Dash();
-            weaponName = changer.currentWeaponName;
-            attack.SetWeapon(weaponName);
+            dash.Dash();
         }
     }
 }
