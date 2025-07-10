@@ -18,6 +18,7 @@ public class PlayerAnimator : MonoBehaviour
     public void BasicDashAnim()
     {
         //기본 대쉬 애니메이션
+
     }
     public void AvoidDashAnim()
     {

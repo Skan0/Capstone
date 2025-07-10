@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerDash : MonoBehaviour
 {
     public GameObject WeaponChangeUI;
-    private PlayerWeaponChanger changer;
+    //private PlayerWeaponChanger changer;
+    private PlayerAnimator anim;
     private PlayerMovement movement;
     private float dashCooldown = 2.0f;
     private float lastDashTime;
@@ -15,7 +17,8 @@ public class PlayerDash : MonoBehaviour
     {
         lastDashTime = -dashCooldown; // 시작하자마자 한 번 사용할 수 있도록
         movement = GetComponent<PlayerMovement>();
-        changer = GetComponent<PlayerWeaponChanger>();
+        //changer = GetComponent<PlayerWeaponChanger>();
+        anim = GetComponent<PlayerAnimator>();  
     }
     public void Dash()
     {
@@ -25,8 +28,15 @@ public class PlayerDash : MonoBehaviour
         else 
             BasicDash();
     }
+    
 
-  
+    IEnumerator CreateAfterImageDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        movement.CreateAfterImage();
+    }
+
+   
     private void BasicDash()//기본 이동만 하는 대쉬
     {
         if (Time.time - lastDashTime < dashCooldown) return;
@@ -35,6 +45,11 @@ public class PlayerDash : MonoBehaviour
 
         Vector3 dashDirection = movement.GetLastMoveDirection(); // movement에서 가져옴
         movement.ForceMove(dashDirection, dashPower);
+        anim.BasicDashAnim();
+        for (int i = 0; i < 3; i++) // 잔상 여러 개 생성
+        {
+            StartCoroutine(CreateAfterImageDelay(0.05f * i));
+        }
     }
 
     private void AvoidDash()//공격 회피 
@@ -42,6 +57,7 @@ public class PlayerDash : MonoBehaviour
         if (Time.time - lastDashTime < dashCooldown) return;
 
         lastDashTime = Time.time;
+        anim.AvoidDashAnim();
         //그냥 대쉬하면서 변경할거면 위에거 그대로 가져와서 사용하고 아니면
         //추가적으로 모션이나 위치 변경을 구현하도록
         //무기변경하는 기능
