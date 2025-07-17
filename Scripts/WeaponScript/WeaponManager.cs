@@ -21,7 +21,7 @@ public class WeaponManager : MonoBehaviour
         foreach (var weapon in weapons)
             weapon.UpdateCooldown(Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             weapons[currentWeaponIndex].UseSkill();
         } 
@@ -33,6 +33,7 @@ public class WeaponManager : MonoBehaviour
             SwitchWeapon();
         }
     }
+   
     public void OnClick(int num)
     {
         // 기존 무기 비활성화

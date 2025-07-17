@@ -16,6 +16,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         return Input.GetMouseButtonDown(1);// 대시&&회피
     }
-
+    
     // 점프, 대시 같은 입력 메서드도 추가 가능
 }

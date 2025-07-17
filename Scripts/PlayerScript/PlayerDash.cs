@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class PlayerDash : MonoBehaviour
 {
-    public GameObject WeaponChangeUI;
+    
+    public WeaponManager weaponManager;
     private PlayerAnimator anim;
     private PlayerMovement movement;
+    
     private float dashCoolTime = 2.0f;
     private float lastDashTime;
     private bool IsinAvoid = false;
@@ -16,6 +18,7 @@ public class PlayerDash : MonoBehaviour
         lastDashTime = -dashCoolTime; // 시작하자마자 한 번 사용할 수 있도록
         movement = GetComponent<PlayerMovement>();
         anim = GetComponent<PlayerAnimator>();  
+        weaponManager=GetComponent<WeaponManager>();
     }
     public void Dash()
     {
@@ -55,6 +58,7 @@ public class PlayerDash : MonoBehaviour
 
         lastDashTime = Time.time;
         anim.AvoidDashAnim();
+        weaponManager.ReduceWeaponChangeCoolDown();
         //이 회피 대쉬를 통해 무기 변경 쿨타임을 줄일 수 있다.
     }
     

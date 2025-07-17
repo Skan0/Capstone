@@ -6,9 +6,12 @@ public abstract class BasicWeapon : MonoBehaviour
     protected AudioClip hitSound;
     protected float cooldownTime;
     protected float cooldownTimer;
-
+    public void Awake()
+    {
+        weaponName = transform.name;
+    }
     public abstract void UseSkill();
-
+    //이 함수는 상속만 받고 개별적으로 구현할 생각이다.
     public virtual void UpdateCooldown(float deltaTime)
     {
         if (cooldownTimer > 0)
