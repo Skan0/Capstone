@@ -4,20 +4,17 @@ using UnityEngine;
 public class PlayerDash : MonoBehaviour
 {
     public GameObject WeaponChangeUI;
-    //private PlayerWeaponChanger changer;
     private PlayerAnimator anim;
     private PlayerMovement movement;
-    private float dashCooldown = 2.0f;
+    private float dashCoolTime = 2.0f;
     private float lastDashTime;
     private bool IsinAvoid = false;
-
     private float dashPower = 50f;       //대쉬 했을 때 얼마나 진행방향으로 이동할지
 
     private void Start()
     {
-        lastDashTime = -dashCooldown; // 시작하자마자 한 번 사용할 수 있도록
+        lastDashTime = -dashCoolTime; // 시작하자마자 한 번 사용할 수 있도록
         movement = GetComponent<PlayerMovement>();
-        //changer = GetComponent<PlayerWeaponChanger>();
         anim = GetComponent<PlayerAnimator>();  
     }
     public void Dash()
@@ -39,14 +36,14 @@ public class PlayerDash : MonoBehaviour
    
     private void BasicDash()//기본 이동만 하는 대쉬
     {
-        if (Time.time - lastDashTime < dashCooldown) return;
+        if (Time.time - lastDashTime < dashCoolTime) return;
         Debug.Log("BasicDash");   
         lastDashTime = Time.time;
 
         Vector3 dashDirection = movement.GetLastMoveDirection(); // movement에서 가져옴
         movement.ForceMove(dashDirection, dashPower);
         anim.BasicDashAnim();
-        for (int i = 0; i < 3; i++) // 잔상 여러 개 생성
+        for (int i = 0; i < 3; i++) // 잔상 3 개 생성
         {
             StartCoroutine(CreateAfterImageDelay(0.05f * i));
         }
@@ -54,14 +51,11 @@ public class PlayerDash : MonoBehaviour
 
     private void AvoidDash()//공격 회피 
     {
-        if (Time.time - lastDashTime < dashCooldown) return;
+        if (Time.time - lastDashTime < dashCoolTime) return;
 
         lastDashTime = Time.time;
         anim.AvoidDashAnim();
-        //그냥 대쉬하면서 변경할거면 위에거 그대로 가져와서 사용하고 아니면
-        //추가적으로 모션이나 위치 변경을 구현하도록
-        //무기변경하는 기능
-        WeaponChangeUI.SetActive(true);
+        //이 회피 대쉬를 통해 무기 변경 쿨타임을 줄일 수 있다.
     }
     
     private void OnTriggerEnter(Collider other)
